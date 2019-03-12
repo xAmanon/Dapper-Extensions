@@ -53,6 +53,14 @@
     <Compile Include="DapperExtensionsConfiguration.cs" />
     <Compile Include="DapperImplementor.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Expressions\ExpressionExtensions.cs" />
+    <Compile Include="Expressions\ExpressionUtility.cs" />
+    <Compile Include="Expressions\PredicateBuilder.cs" />
+    <Compile Include="Expressions\PredicateExtensions.cs" />
+    <Compile Include="Expressions\QueryBuilder.cs" />
+    <Compile Include="Expressions\QueryFunctions.cs" />
+    <Compile Include="Expressions\SortDirection.cs" />
+    <Compile Include="Expressions\SortingExtensions.cs" />
     <Compile Include="GetMultiplePredicate.cs" />
     <Compile Include="GetMultipleResult.cs" />
     <Compile Include="Mapper\AutoClassMapper.cs" />
