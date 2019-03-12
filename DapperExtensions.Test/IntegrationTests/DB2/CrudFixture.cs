@@ -191,6 +191,26 @@ namespace DapperExtensions.Test.IntegrationTests.DB2
             }
 
             [Test]
+            public void UsingKey_UpdatesEntityPartitalColumns()
+            {
+                Person p1 = new Person
+                {
+                    Active = 1,
+                    FirstName = "Foo",
+                    LastName = "Bar",
+                    DateCreated = DateTime.UtcNow
+                };
+                int id = Db.Insert(p1);
+
+                Db.Update<Person>(id, new { FirstName = "Bza" });
+
+                var p3 = Db.Get<Person>(id);
+                Assert.AreEqual("Baz", p3.FirstName);
+                Assert.AreEqual("Bar", p3.LastName);
+                Assert.AreEqual(1, p3.Active);
+            }
+
+            [Test]
             public void UsingCompositeKey_UpdatesEntity()
             {
                 Multikey m1 = new Multikey { Key2 = "key", Value = "bar" };

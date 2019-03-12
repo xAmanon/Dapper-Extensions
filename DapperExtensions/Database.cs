@@ -25,6 +25,8 @@ namespace DapperExtensions
         dynamic Insert<T>(T entity, int? commandTimeout = null) where T : class;
         bool Update<T>(T entity, IDbTransaction transaction, int? commandTimeout = null, bool ignoreAllKeyProperties = false) where T : class;
         bool Update<T>(T entity, int? commandTimeout = null, bool ignoreAllKeyProperties = false) where T : class;
+        bool Update<T>(dynamic id, object props, IDbTransaction transaction=null, int? commandTimeout=null) where T : class;
+        bool UpdatePartial<T>(object props, object predicate, IDbTransaction transaction=null, int? commandTimeout=null) where T : class;
         bool Delete<T>(T entity, IDbTransaction transaction, int? commandTimeout = null) where T : class;
         bool Delete<T>(T entity, int? commandTimeout = null) where T : class;
         bool Delete<T>(object predicate, IDbTransaction transaction, int? commandTimeout = null) where T : class;
@@ -178,6 +180,16 @@ namespace DapperExtensions
         public bool Update<T>(T entity, int? commandTimeout, bool ignoreAllKeyProperties) where T : class
         {
             return _dapper.Update<T>(Connection, entity, _transaction, commandTimeout, ignoreAllKeyProperties);
+        }
+
+        public bool Update<T>( dynamic id, object props, IDbTransaction transaction=null, int? commandTimeout=null) where T : class
+        {
+            return _dapper.Update<T>(Connection, id, props, transaction??_transaction, commandTimeout);
+        }
+
+        public bool UpdatePartial<T>( object props, object predicate, IDbTransaction transaction=null, int? commandTimeout=null) where T : class
+        {
+            return _dapper.UpdatePartial<T>(Connection,props, predicate, transaction ?? _transaction, commandTimeout);
         }
 
         public bool Delete<T>(T entity, IDbTransaction transaction, int? commandTimeout) where T : class
