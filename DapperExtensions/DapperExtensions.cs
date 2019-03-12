@@ -170,7 +170,7 @@ namespace DapperExtensions
         /// <summary>
         /// Executes an update query for specified id
         /// </summary>
-        public static bool Update<T>(IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class
+        public static bool Update<T>(this IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class
         {
             return Instance.Update<T>(connection, id, props, transaction, commandTimeout);
         }
@@ -178,7 +178,7 @@ namespace DapperExtensions
         /// <summary>
         ///  Executes an update query using the specified predicate and property.
         /// </summary>
-        public static bool UpdatePartial<T>(IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
+        public static bool UpdatePartial<T>(this IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
         {
             return Instance.UpdatePartial<T>(connection, props, predicate, transaction, commandTimeout);
         }

@@ -181,7 +181,7 @@ namespace DapperExtensions
         /// <summary>
         /// Executes an update query for specified id
         /// </summary>
-        public static Task<bool> UpdateAsync<T>(IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class
+        public static Task<bool> UpdateAsync<T>(this IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class
         {
             return Instance.UpdateAsync<T>(connection, id, props, transaction, commandTimeout);
         }
@@ -189,7 +189,7 @@ namespace DapperExtensions
         /// <summary>
         ///  Executes an update query using the specified predicate and property.
         /// </summary>
-        public static Task<bool> UpdatePartialAsync<T>(IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
+        public static Task<bool> UpdatePartialAsync<T>(this IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
         {
             return Instance.UpdatePartialAsync<T>(connection, props, predicate, transaction, commandTimeout);
         }
