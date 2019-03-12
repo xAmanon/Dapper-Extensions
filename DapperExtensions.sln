@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperExtensions.Net45", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperExtensionsDNXCore", "DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj", "{CAA1A673-6521-4954-BF05-37FFE016E5C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperExtenions.NetCore", "DapperExtenions.NetCore\DapperExtenions.NetCore.csproj", "{C2AFB002-7B7A-4450-B5C4-6C9A813F57D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperExtensions.NetCore", "DapperExtenions.NetCore\DapperExtensions.NetCore.csproj", "{C2AFB002-7B7A-4450-B5C4-6C9A813F57D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
