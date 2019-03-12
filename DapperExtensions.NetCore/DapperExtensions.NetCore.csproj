@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>x.DapperExtensions.NetCore</PackageId>
+    <Product>x.DapperExtensions.NetCore</Product>
+    <Company>x.DapperExtensions.NetCore</Company>
+    <Authors>xAmanon</Authors>
   </PropertyGroup>
 
   <ItemGroup>

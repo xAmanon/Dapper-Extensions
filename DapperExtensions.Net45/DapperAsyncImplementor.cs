@@ -65,6 +65,10 @@ namespace DapperExtensions
         /// The asynchronous counterpart to <see cref="IDapperImplementor.Delete{T}(IDbConnection, object, IDbTransaction, int?)"/>.
         /// </summary>
         Task<bool> DeleteAsync<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class;
+        /// <summary>
+        /// The asynchronous counterpart to <see cref="IDapperImplementor.Delete{T}(IDbConnection, dynamic, IDbTransaction, int?)"/>.
+        /// </summary>
+        Task<bool> DeleteWithKeyAsync<T>(IDbConnection connection, dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class;
     }
 
     public class DapperAsyncImplementor : DapperImplementor, IDapperAsyncImplementor
@@ -270,6 +274,12 @@ namespace DapperExtensions
             return await connection.ExecuteAsync(sql, dynamicParameters, transaction, commandTimeout, CommandType.Text) > 0;
         }
 
+        public async Task<bool> DeleteWithKeyAsync<T>(IDbConnection connection, dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class
+        {
+            IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
+            IPredicate predicate = GetIdPredicate(classMap, id);
+            return await DeleteAsync<T>(connection, classMap, predicate, transaction, commandTimeout);
+        }
         /// <summary>
         /// The asynchronous counterpart to <see cref="IDapperImplementor.Delete{T}(IDbConnection, T, IDbTransaction, int?)"/>.
         /// </summary>

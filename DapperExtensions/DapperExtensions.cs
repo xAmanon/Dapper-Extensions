@@ -200,6 +200,14 @@ namespace DapperExtensions
         }
 
         /// <summary>
+        /// Executes a delete query using the specified id.
+        /// </summary>
+        public static bool DeleteWithKey<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class
+        {
+            return Instance.DeleteWithKey<T>(connection, id, transaction, commandTimeout);
+        }
+
+        /// <summary>
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// </summary>
         public static IEnumerable<T> GetList<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
