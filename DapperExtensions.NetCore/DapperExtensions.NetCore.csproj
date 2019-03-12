@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>x.DapperExtensions.NetCore</PackageId>
-    <Product>x.DapperExtensions.NetCore</Product>
-    <Company>x.DapperExtensions.NetCore</Company>
+    <Version>0.0.2</Version>
     <Authors>xAmanon</Authors>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
-    <Version>0.0.1</Version>
   </PropertyGroup>
+
 
   <ItemGroup>
     <Compile Include="..\DapperExtensions.Net45\DapperAsyncExtensions.cs" Link="DapperAsyncExtensions.cs" />
@@ -47,6 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
