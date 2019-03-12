@@ -202,7 +202,7 @@ namespace DapperExtensions
         /// <summary>
         /// Executes a delete query using the specified id.
         /// </summary>
-        public static bool DeleteWithKey<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class
+        public static bool DeleteWithKey<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction=null, int? commandTimeout=null) where T : class
         {
             return Instance.DeleteWithKey<T>(connection, id, transaction, commandTimeout);
         }

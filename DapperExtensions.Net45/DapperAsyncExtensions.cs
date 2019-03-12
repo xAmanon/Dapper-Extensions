@@ -218,6 +218,13 @@ namespace DapperExtensions
             return await Instance.GetPageAsync<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout);
         }
 
+        /// <summary>
+        /// Executes a delete query using the specified id.
+        /// </summary>
+        public static async Task<bool> DeleteWithKeyAsync<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+            return await Instance.DeleteWithKeyAsync<T>(connection, id, transaction, commandTimeout);
+        }
 
         /// <summary>
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
