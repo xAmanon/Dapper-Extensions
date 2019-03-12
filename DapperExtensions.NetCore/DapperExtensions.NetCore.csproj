@@ -8,7 +8,7 @@
     <Authors>xAmanon</Authors>
     <AssemblyVersion>1.0.0.1</AssemblyVersion>
     <FileVersion>1.0.0.1</FileVersion>
-    <Version>1.0.1</Version>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +18,14 @@
     <Compile Include="..\DapperExtensions\DapperExtensionsConfiguration.cs" Link="DapperExtensionsConfiguration.cs" />
     <Compile Include="..\DapperExtensions\DapperImplementor.cs" Link="DapperImplementor.cs" />
     <Compile Include="..\DapperExtensions\Database.cs" Link="Database.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\ExpressionExtensions.cs" Link="Expressions\ExpressionExtensions.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\ExpressionUtility.cs" Link="Expressions\ExpressionUtility.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\PredicateBuilder.cs" Link="Expressions\PredicateBuilder.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\PredicateExtensions.cs" Link="Expressions\PredicateExtensions.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\QueryBuilder.cs" Link="Expressions\QueryBuilder.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\QueryFunctions.cs" Link="Expressions\QueryFunctions.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\SortDirection.cs" Link="Expressions\SortDirection.cs" />
+    <Compile Include="..\DapperExtensions\Expressions\SortingExtensions.cs" Link="Expressions\SortingExtensions.cs" />
     <Compile Include="..\DapperExtensions\GetMultiplePredicate.cs" Link="GetMultiplePredicate.cs" />
     <Compile Include="..\DapperExtensions\GetMultipleResult.cs" Link="GetMultipleResult.cs" />
     <Compile Include="..\DapperExtensions\Mapper\AutoClassMapper.cs" Link="Mapper\AutoClassMapper.cs" />
@@ -44,6 +52,7 @@
   <ItemGroup>
     <Folder Include="Mapper\" />
     <Folder Include="Sql\" />
+    <Folder Include="Expressions\" />
   </ItemGroup>
 
 </Project>

@@ -58,6 +58,30 @@
     <Compile Include="..\DapperExtensions\Database.cs">
       <Link>Database.cs</Link>
     </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\ExpressionExtensions.cs">
+      <Link>Expressions\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\ExpressionUtility.cs">
+      <Link>Expressions\ExpressionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\PredicateBuilder.cs">
+      <Link>Expressions\PredicateBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\PredicateExtensions.cs">
+      <Link>Expressions\PredicateExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\QueryBuilder.cs">
+      <Link>Expressions\QueryBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\QueryFunctions.cs">
+      <Link>Expressions\QueryFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\SortDirection.cs">
+      <Link>Expressions\SortDirection.cs</Link>
+    </Compile>
+    <Compile Include="..\DapperExtensions\Expressions\SortingExtensions.cs">
+      <Link>Expressions\SortingExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\DapperExtensions\GetMultiplePredicate.cs">
       <Link>GetMultiplePredicate.cs</Link>
     </Compile>
