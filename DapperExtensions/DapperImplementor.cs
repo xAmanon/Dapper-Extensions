@@ -18,6 +18,8 @@ namespace DapperExtensions
         void Insert<T>(IDbConnection connection, IEnumerable<T> entities, IDbTransaction transaction, int? commandTimeout) where T : class;
         dynamic Insert<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout) where T : class;
         bool Update<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout, bool ignoreAllKeyProperties) where T : class;
+        bool Update<T>(IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class;
+        bool UpdatePartial<T>(IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class;
         bool Delete<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout) where T : class;
         bool Delete<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class;
         IEnumerable<T> GetList<T>(IDbConnection connection, object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class;        
@@ -187,6 +189,13 @@ namespace DapperExtensions
             return keyValues;
         }
 
+        public bool Update<T>(IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class
+        {
+            IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
+            IPredicate predicate = GetIdPredicate(classMap, id);
+            return this.UpdatePartial<T>(connection, props, predicate, transaction, commandTimeout);
+        }
+
         public bool Update<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout, bool ignoreAllKeyProperties = false) where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
@@ -200,6 +209,33 @@ namespace DapperExtensions
                 : classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.Assigned));
 
             foreach (var property in ReflectionHelper.GetObjectValues(entity).Where(property => columns.Any(c => c.Name == property.Key)))
+            {
+                dynamicParameters.Add(property.Key, property.Value);
+            }
+
+            foreach (var parameter in parameters)
+            {
+                dynamicParameters.Add(parameter.Key, parameter.Value);
+            }
+
+            return connection.Execute(sql, dynamicParameters, transaction, commandTimeout, CommandType.Text) > 0;
+        }
+
+        public bool UpdatePartial<T>(IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
+        {
+            IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
+            IPredicate wherePredicate = GetPredicate(classMap, predicate);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var propValues = ReflectionHelper.GetObjectValues(props);
+            var propKeys = propValues.Keys.ToList();
+            string sql = SqlGenerator.Update(classMap, wherePredicate, parameters, true, propKeys);
+
+            var columns = classMap.Properties.Where(
+                p => (propKeys.Count == 0 || propKeys.Contains(p.Name, StringComparer.OrdinalIgnoreCase)) &&
+                     !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.Assigned));
+
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            foreach (var property in propValues.Where(property => columns.Any(c => c.Name.Equals(property.Key, StringComparison.OrdinalIgnoreCase))))
             {
                 dynamicParameters.Add(property.Key, property.Value);
             }
