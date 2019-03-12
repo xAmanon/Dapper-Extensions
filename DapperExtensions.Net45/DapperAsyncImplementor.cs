@@ -50,6 +50,14 @@ namespace DapperExtensions
         /// </summary>
         Task<bool> UpdateAsync<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout, bool ignoreAllKeyProperties = false) where T : class;
         /// <summary>
+        /// The asynchronous counterpart to <see cref="IDapperImplementor.Update{T}(IDbConnection, dynamic,object, IDbTransaction, int?)"/>.
+        /// </summary>
+        Task<bool> UpdateAsync<T>(IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class;
+        /// <summary>
+        /// The asynchronous counterpart to <see cref="IDapperImplementor.UpdatePartial{T}(IDbConnection, object,object, IDbTransaction, int?)"/>.
+        /// </summary>
+        Task<bool> UpdatePartialAsync<T>(IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class;     
+        /// <summary>
         /// The asynchronous counterpart to <see cref="IDapperImplementor.Delete{T}(IDbConnection, T, IDbTransaction, int?)"/>.
         /// </summary>
         Task<bool> DeleteAsync<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout) where T : class;
@@ -227,6 +235,41 @@ namespace DapperExtensions
 
             return await connection.ExecuteAsync(sql, dynamicParameters, transaction, commandTimeout, CommandType.Text).ConfigureAwait(false) > 0;
         }
+
+        public async Task<bool> UpdateAsync<T>(IDbConnection connection, dynamic id, object props, IDbTransaction transaction, int? commandTimeout) where T : class
+        {
+            IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
+            IPredicate predicate = GetIdPredicate(classMap, id);
+            return await this.UpdatePartialAsync<T>(connection, props, predicate, transaction, commandTimeout);
+        }
+
+        public async Task<bool> UpdatePartialAsync<T>(IDbConnection connection, object props, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
+        {
+            IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
+            IPredicate wherePredicate = GetPredicate(classMap, predicate);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            var propValues = ReflectionHelper.GetObjectValues(props);
+            var propKeys = propValues.Keys.ToList();
+            string sql = SqlGenerator.Update(classMap, wherePredicate, parameters, true, propKeys);
+
+            var columns = classMap.Properties.Where(
+                p => (propKeys.Count == 0 || propKeys.Contains(p.Name, StringComparer.OrdinalIgnoreCase)) &&
+                     !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.Assigned));
+
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            foreach (var property in propValues.Where(property => columns.Any(c => c.Name.Equals(property.Key, StringComparison.OrdinalIgnoreCase))))
+            {
+                dynamicParameters.Add(property.Key, property.Value);
+            }
+
+            foreach (var parameter in parameters)
+            {
+                dynamicParameters.Add(parameter.Key, parameter.Value);
+            }
+
+            return await connection.ExecuteAsync(sql, dynamicParameters, transaction, commandTimeout, CommandType.Text) > 0;
+        }
+
         /// <summary>
         /// The asynchronous counterpart to <see cref="IDapperImplementor.Delete{T}(IDbConnection, T, IDbTransaction, int?)"/>.
         /// </summary>
